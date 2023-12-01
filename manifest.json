@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "ext",
+  "version": "1.0",
+
+  "permissions": ["contextMenus"],
+  "background": {
+    "service_worker": "script.js"
+  }
+}
