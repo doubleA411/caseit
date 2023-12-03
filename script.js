@@ -21,6 +21,12 @@ chrome.runtime.onInstalled.addListener(function () {
     contexts: ["selection"],
     id: "camel",
   });
+
+  chrome.contextMenus.create({
+    title: "Sentence case",
+    contexts: ["selection"],
+    id: "sentence",
+  });
 });
 
 const capitalize = (text) => {
@@ -39,6 +45,15 @@ const camelize = (text) => {
 
   var newS = splits.join(" ");
   return newS;
+};
+
+const sentence = (text) => {
+  let splits = text.split(". ");
+  splits.forEach((x, i) => {
+    splits[i] = capitalize(splits[i]);
+  });
+  var newS = splits.join(". ");
+  console.log(newS);
 };
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
@@ -63,6 +78,11 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
   if (info.menuItemId && info.menuItemId === "camel") {
     var selectedText = info.selectionText;
     newText = camelize(selectedText);
+    console.log(newText);
+  }
+  if (info.menuItemId && info.menuItemId === "sentence") {
+    var selectedText = info.selectionText;
+    newText = sentence(selectedText);
     console.log(newText);
   }
 });

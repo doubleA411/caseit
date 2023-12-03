@@ -3,17 +3,28 @@ const capitalize = (text) => {
   var first = splits[0].charAt(0).toUpperCase() + splits[0].slice(1);
   splits[0] = first;
   var newS = splits.join(" ");
-  console.log(newS);
+  return newS;
 };
 
-var sent = "zoomed eyedropper & color chooser tool that";
+var sent =
+  "zoomed eyedropper & color chooser tool that. zoomed eyedropper & color chooser tool that. zoomed eyedropper & color chooser tool that. zoomed eyedropper & color chooser tool that. zoomed eyedropper & color chooser tool that. zoomed eyedropper & color chooser tool that.";
 
 const camelize = (text) => {
   let splits = text.split(" ");
   splits.forEach((x, i) => {
-    splits[i] = splits[i].charAt(0).toUpperCase() + splits[i].slice(1);
+    splits[i] = x.charAt(0).toUpperCase() + x.slice(1);
   });
   console.log(splits);
 };
 
-camelize(sent);
+const sentence = (text) => {
+  let splits = text.split(". ");
+  splits.forEach((x, i) => {
+    splits[i] = capitalize(splits[i]);
+  });
+  var newS = splits.join(". ");
+  console.log(newS);
+};
+
+// sentence(sent);
+// console.log(sent.split(".")[1][0]);
