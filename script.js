@@ -1,88 +1,83 @@
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.contextMenus.create({
-    title: "Uppercase",
-    contexts: ["selection"],
-    id: "upper",
-  });
-  chrome.contextMenus.create({
-    title: "Lowercase",
-    contexts: ["selection"],
-    id: "lower",
-  });
-
-  chrome.contextMenus.create({
-    title: "Capitalize",
-    contexts: ["selection"],
-    id: "capitalize",
-  });
-
-  chrome.contextMenus.create({
-    title: "Camelcase",
-    contexts: ["selection"],
-    id: "camel",
-  });
-
-  chrome.contextMenus.create({
-    title: "Sentence case",
-    contexts: ["selection"],
-    id: "sentence",
-  });
+chrome.contextMenus.create({
+  title: "Uppercase",
+  contexts: ["selection"],
+  id: "upper",
+});
+chrome.contextMenus.create({
+  title: "Lowercase",
+  contexts: ["selection"],
+  id: "lower",
 });
 
-const capitalize = (text) => {
-  var splits = text.split(" ");
-  var first = splits[0].charAt(0).toUpperCase() + splits[0].slice(1);
-  splits[0] = first;
-  var newS = splits.join(" ");
-  return newS;
-};
+chrome.contextMenus.create({
+  title: "Capitalize",
+  contexts: ["selection"],
+  id: "capitalize",
+});
 
-const camelize = (text) => {
-  let splits = text.split(" ");
-  splits.forEach((x, i) => {
-    splits[i] = splits[i].charAt(0).toUpperCase() + splits[i].slice(1);
+chrome.contextMenus.create({
+  title: "Camelcase",
+  contexts: ["selection"],
+  id: "camel",
+});
+
+chrome.contextMenus.create({
+  title: "Sentence case",
+  contexts: ["selection"],
+  id: "sentence",
+});
+
+const sendTransformedTextToContentScript = (text, transformation) => {
+  console.log("started... to transfer");
+  // Get the active tab to send the message to the content script
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const activeTab = tabs[0];
+    if (activeTab) {
+      chrome.tabs.sendMessage(activeTab.id, {
+        textToTransform: text,
+        type: transformation,
+      });
+    }
   });
-
-  var newS = splits.join(" ");
-  return newS;
-};
-
-const sentence = (text) => {
-  let splits = text.split(". ");
-  splits.forEach((x, i) => {
-    splits[i] = capitalize(splits[i]);
-  });
-  var newS = splits.join(". ");
-  console.log(newS);
+  console.log("transfer complete");
 };
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  var newText = "";
+  // var newText = "";
   if (info.menuItemId && info.menuItemId === "upper") {
     var selectedText = info.selectionText;
-    newText = selectedText.toString().toUpperCase();
-    console.log(newText);
+    // newText = selectedText.toString().toUpperCase();
+    sendTransformedTextToContentScript(selectedText, "upper");
+    console.log(selectedText);
   }
   if (info.menuItemId && info.menuItemId === "lower") {
     var selectedText = info.selectionText;
-    newText = selectedText.toString().toLowerCase();
-    console.log(newText);
+    // newText = selectedText.toString().toLowerCase();
+    sendTransformedTextToContentScript(selectedText, "lower");
+    console.log(selectedText);
   }
 
   if (info.menuItemId && info.menuItemId === "capitalize") {
     var selectedText = info.selectionText;
-    newText = capitalize(selectedText);
-    console.log(newText);
+    // newText = capitalize(selectedText);
+    sendTransformedTextToContentScript(selectedText, "capitalize");
+    console.log(selectedText);
   }
 
   if (info.menuItemId && info.menuItemId === "camel") {
     var selectedText = info.selectionText;
-    newText = camelize(selectedText);
-    console.log(newText);
+    // newText = camelize(selectedText);
+    sendTransformedTextToContentScript(selectedText, "camel");
+    console.log(selectedText);
   }
   if (info.menuItemId && info.menuItemId === "sentence") {
     var selectedText = info.selectionText;
-    newText = sentence(selectedText);
-    console.log(newText);
+    // newText = sentence(selectedText);
+    sendTransformedTextToContentScript(selectedText, "sentence");
+    console.log(selectedText);
   }
 });
+
+// chrome.commands.onCommand.addListener((command) => {
+
+// });

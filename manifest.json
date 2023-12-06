@@ -1,10 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "ext",
+  "name": "caseit",
   "version": "1.0",
 
-  "permissions": ["contextMenus"],
+  "permissions": ["contextMenus", "activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
+    }
+  ],
   "background": {
     "service_worker": "script.js"
+  },
+
+  "icons": {
+    "16": "assets/16.png",
+    "32": "assets/32.png",
+    "48": "assets/64.png",
+    "128": "assets/128.png"
   }
 }
