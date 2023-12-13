@@ -50,4 +50,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-If you have any questions or suggestions, feel free to reach out at [your-email@example.com](mailto:doublea.py@gmail.com).
+If you have any questions or suggestions, feel free to reach out at [doublea.py@gmail.com](mailto:doublea.py@gmail.com).
