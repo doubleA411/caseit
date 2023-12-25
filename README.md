@@ -22,8 +22,9 @@ To install the Case it Chrome Extension:
 1. Select the text you want to modify.
 2. Right-click to open the context menu.
 3. Choose the desired case modification option from the "Case Changer" menu.
-4. The updated text will be copied to your clipboard automatically.
-5. Paste the modified text wherever needed.
+4. The updated text will be modified in the position.
+5. The updated text will also be copied to your clipboard automatically.
+6. Paste the modified text wherever needed.
 
 ## Supported Case Modifications
 
