@@ -1,32 +1,19 @@
-chrome.contextMenus.create({
-  title: "Uppercase",
-  contexts: ["selection"],
-  id: "upper",
-});
-chrome.contextMenus.create({
-  title: "Lowercase",
-  contexts: ["selection"],
-  id: "lower",
-});
+const contextMenuItems = [
+  { title: "Uppercase", id: "upper" },
+  { title: "Lowercase", id: "lower" },
+  { title: "Capitalize", id: "capitalize" },
+  { title: "Camelcase", id: "camel" },
+  { title: "Sentence case", id: "sentence" },
+];
 
-chrome.contextMenus.create({
-  title: "Capitalize",
-  contexts: ["selection"],
-  id: "capitalize",
+// Create context menu items
+contextMenuItems.forEach((item) => {
+  chrome.contextMenus.create({
+    title: item.title,
+    contexts: ["selection"],
+    id: item.id,
+  });
 });
-
-chrome.contextMenus.create({
-  title: "Camelcase",
-  contexts: ["selection"],
-  id: "camel",
-});
-
-chrome.contextMenus.create({
-  title: "Sentence case",
-  contexts: ["selection"],
-  id: "sentence",
-});
-
 const sendTransformedTextToContentScript = (text, transformation) => {
   console.log("started... to transfer");
   // Get the active tab to send the message to the content script
@@ -36,6 +23,12 @@ const sendTransformedTextToContentScript = (text, transformation) => {
       chrome.tabs.sendMessage(activeTab.id, {
         textToTransform: text,
         type: transformation,
+      }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("Message failed to send:", chrome.runtime.lastError.message);
+        } else {
+          console.log("Message sent : ", response);
+        }
       });
     }
   });
@@ -66,7 +59,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
   if (info.menuItemId && info.menuItemId === "camel") {
     var selectedText = info.selectionText;
-    
+
     // newText = camelize(selectedText);
     sendTransformedTextToContentScript(selectedText, "camel");
     console.log(selectedText);

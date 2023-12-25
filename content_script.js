@@ -29,7 +29,8 @@ const camelize = (text) => {
 };
 
 const sentence = (text) => {
-  let splits = text.split(". ");
+  const text2 = text.toLowerCase()
+  let splits = text2.split(". ");
   splits.forEach((x, i) => {
     splits[i] = capitalize(splits[i]);
   });
@@ -46,10 +47,12 @@ function replaceSelectedText(newText) {
   }
 }
 
+//---------------------------------------------------------------------
+
 
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("started....");
+  console.log("message received : ", message);
   if (message.textToTransform) {
     let text = "";
     switch (message.type) {
@@ -74,4 +77,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     replaceSelectedText(text);
     copyTextToClipboard(text);
   }
+  sendResponse({ response: "200" });
 });
