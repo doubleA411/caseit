@@ -37,6 +37,17 @@ const sentence = (text) => {
   return newS;
 };
 
+function replaceSelectedText(newText) {
+  const selection = window.getSelection();
+  if (selection.rangeCount) {
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(document.createTextNode(newText));
+  }
+}
+
+
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("started....");
   if (message.textToTransform) {
@@ -60,7 +71,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       default:
         text = message.textToTransform;
     }
-
+    replaceSelectedText(text);
     copyTextToClipboard(text);
   }
 });

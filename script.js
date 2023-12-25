@@ -66,6 +66,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
   if (info.menuItemId && info.menuItemId === "camel") {
     var selectedText = info.selectionText;
+    
     // newText = camelize(selectedText);
     sendTransformedTextToContentScript(selectedText, "camel");
     console.log(selectedText);
