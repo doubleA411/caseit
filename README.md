@@ -16,6 +16,7 @@ To install the Case it Chrome Extension:
 2. Open Chrome and go to `chrome://extensions/`.
 3. Enable Developer Mode.
 4. Click on "Load unpacked" and select the folder where the extension files are located.
+5. Restart the browser to make use of the extension.
 
 ## Usage
 
