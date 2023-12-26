@@ -32,7 +32,6 @@ const sendTransformedTextToContentScript = (text, transformation) => {
       });
     }
   });
-  console.log("transfer complete");
 };
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {

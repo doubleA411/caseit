@@ -1,4 +1,4 @@
-function copyTextToClipboard(text) {
+async function copyTextToClipboard(text) {
   const textarea = document.createElement("textarea");
   textarea.value = text;
   textarea.setAttribute("readonly", "");
@@ -38,14 +38,31 @@ const sentence = (text) => {
   return newS;
 };
 
-function replaceSelectedText(newText) {
+async function replaceSelectedText(newText) {
   const selection = window.getSelection();
-  if (selection.rangeCount) {
-    const range = selection.getRangeAt(0);
-    range.deleteContents();
-    range.insertNode(document.createTextNode(newText));
+  const focus =  document.activeElement;
+
+  try {
+    console.log("in try block")
+    if(focus.tagName ==! "INPUT" || focus.isContentEditable){
+      console.log("no input tag identified");
+      if (selection.rangeCount) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode(newText));
+      }
+    } else {
+      console.log("Input tag identified");
+      focus.value = newText;
+      
+    }
+  } catch (error) {
+    console.log("Error in replaceSelectionText : ",error);
   }
-}
+
+ 
+  }
+
 
 //---------------------------------------------------------------------
 
@@ -74,8 +91,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       default:
         text = message.textToTransform;
     }
+    
     replaceSelectedText(text);
     copyTextToClipboard(text);
   }
+
   sendResponse({ response: "200" });
 });
